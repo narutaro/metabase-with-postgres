@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    container_name: postgres
+    hostname: postgres 
+    restart: "always"
+    image: postgres
+    env_file:
+      - ./env/postgres.env
+    volumes:
+      - ./services/postgres/:/docker-entrypoint-initdb.d/
+      - ./db/:/var/lib/postgresql/data/
+
+  pgc:
+    container_name: pgc
+    hostname: pgc 
+    image: postgres
+    env_file:
+      - ./env/postgres.env
+
+  metabase:
+    container_name: metabase
+    hostname: metabase
+    restart: "always"
+    image: metabase/metabase
+    env_file:
+      - ./env/metabase_database.env
+    ports:
+      - 3000:3000
+
